@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
     },
     input: {
         width: '70%',
+        padding: 10,
         borderStyle: 'solid',
         borderBottomWidth: 10,
         borderBottomColor: '#3949ab'
