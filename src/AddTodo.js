@@ -18,6 +18,8 @@ export const AddTodo = ({ onSubmit }) => {
             onChangeText={setValue}
             value={value}
             placeholder='Enter the name of the case ...'
+            autoCorrect={false}
+            autoCapitalize='none'
             />
             <Button title='Add' onPress={pressHandler}/>
         </View>
