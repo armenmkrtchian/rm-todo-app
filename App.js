@@ -28,11 +28,11 @@ export default function App() {
       `Вы уверены, что хотите удалить "${todo.title}"?`,
       [
         {
-          text: 'Отмена',
+          text: 'Cancel',
           style: 'cancel'
         },
         {
-          text: 'Удалить',
+          text: 'Delete',
           style: 'destructive',
           onPress: () => {
             setTodoId(null)
