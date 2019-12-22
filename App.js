@@ -1,15 +1,15 @@
-import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
-import { Navbar } from "./src/components/Navbar";
-import { MainScreen } from "./src/screens/MainScreen";
-import { TodoScreen } from "./src/screens/TodoScreen";
+import React, { useState } from 'react'
+import { StyleSheet, Text, View, FlatList, Alert } from 'react-native'
+import { Navbar } from './src/components/Navbar'
+import { MainScreen } from './src/screens/MainScreen'
+import { TodoScreen } from './src/screens/TodoScreen'
 
 export default function App() {
-  const [todoId, setTodoId] = useState(null);
+  const [todoId, setTodoId] = useState('2')
   const [todos, setTodos] = useState([
-    {id: '1', title: "Learn React Native"},
-    {id: '2', title: 'Write app'}
-  ]);
+    { id: '1', title: 'Выучить React Native' },
+    { id: '2', title: 'Написать приложение' }
+  ])
 
   const addTodo = title => {
     setTodos(prev => [
@@ -18,12 +18,31 @@ export default function App() {
         id: Date.now().toString(),
         title
       }
-    ]);
-  };
+    ])
+  }
 
   const removeTodo = id => {
-    setTodos(prev => prev.filter(todo => todo.id !== id));
-  };
+    const todo = todos.find(t => t.id === id)
+    Alert.alert(
+      'Удаление элемента',
+      `Вы уверены, что хотите удалить "${todo.title}"?`,
+      [
+        {
+          text: 'Отмена',
+          style: 'cancel'
+        },
+        {
+          text: 'Удалить',
+          style: 'destructive',
+          onPress: () => {
+            setTodoId(null)
+            setTodos(prev => prev.filter(todo => todo.id !== id))
+          }
+        }
+      ],
+      { cancelable: false }
+    )
+  }
 
   let content = (
     <MainScreen
@@ -32,19 +51,25 @@ export default function App() {
       removeTodo={removeTodo}
       openTodo={setTodoId}
     />
-  );
+  )
 
   if (todoId) {
     const selectedTodo = todos.find(todo => todo.id === todoId)
-    content = <TodoScreen goBack={() => setTodoId(null)} todo={selectedTodo}/>;
+    content = (
+      <TodoScreen
+        onRemove={removeTodo}
+        goBack={() => setTodoId(null)}
+        todo={selectedTodo}
+      />
+    )
   }
 
   return (
     <View>
-      <Navbar title="Todo app!" />
+      <Navbar title='Todo App!' />
       <View style={styles.container}>{content}</View>
     </View>
-  );
+  )
 }
 
 const styles = StyleSheet.create({
@@ -52,4 +77,4 @@ const styles = StyleSheet.create({
     paddingHorizontal: 30,
     paddingVertical: 20
   }
-});
+})
